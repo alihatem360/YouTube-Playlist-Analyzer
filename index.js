@@ -1,5 +1,9 @@
 const ytdl = require("ytdl-core");
 const axios = require("axios");
+const dotenv = require("dotenv");
+
+// Load environment variables from .env file
+dotenv.config();
 
 // Loader function
 function startLoader() {
@@ -35,6 +39,7 @@ async function getPlaylistVideos(playlistId, apiKey) {
     return videos;
   } catch (error) {
     console.error("Error fetching playlist:", error.message);
+    return [];
   }
 }
 
@@ -52,6 +57,7 @@ async function getVideoDetails(videoId) {
     return { sizeInMB, videoDuration };
   } catch (error) {
     console.error(`Error fetching video ${videoId}:`, error.message);
+    return { sizeInMB: 0, videoDuration: 0 };
   }
 }
 
@@ -99,5 +105,5 @@ async function getPlaylistSizeAndTime(playlistUrl, apiKey) {
 // Example usage
 const playlistUrl =
   "https://youtube.com/playlist?list=PLesfn4TAj57WJFn86KXOInQAsCdJlp6vl&si=dchPnBhYbYks0gwr";
-const apiKey = "AIzaSyCx2gkxCVPhzTsFtc4HYMYcislVVzRpW5I";
+const apiKey = process.env.YOUTUBE_API_KEY;
 getPlaylistSizeAndTime(playlistUrl, apiKey);
